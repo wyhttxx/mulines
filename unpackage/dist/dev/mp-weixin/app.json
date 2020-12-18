@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/cityBar/components/t-city",
+    "pages/lines/lines",
+    "components/card/card-zhangkai/card-zhangkai",
+    "pages/lineDetail/lineDetail"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap45.json"
+}

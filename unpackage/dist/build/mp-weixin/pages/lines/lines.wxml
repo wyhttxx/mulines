@@ -1,0 +1,1 @@
+<view><block wx:for="{{linesdata}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="card-control"><card vue-id="{{'467c3940-1-'+index}}" item="{{item}}" bind:__l="__l"></card></view></block></view>
