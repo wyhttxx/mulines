@@ -32,12 +32,30 @@
 				<button type="default" @click="search" plain="true">查询</button>
 			</view>
 		</view>
-
+		<view class="productChoose" >
+			<view class="productItem" :class="{'active':pStyle[index]===1}" @click="get(index)" v-for="(item,index) in product" :key="index">{{item}}</view>
+			<text>目前仅支持周末航线查询</text>
+		</view>
+		<view class="label-box">
+			<view class="label-header">
+				<text class="label-title">
+					搜索历史
+				</text>
+				<text class="label-clear" @click="clearHistory">清空</text>
+			</view>
+			<view class="label-content" v-if="historyList.length>0">
+				<view class="label-content-item" v-for="(item,index) in historyList" :key="index" @click="pushHistory(item)">
+					{{item.departure}}-{{item.arr}}
+				</view>
+			</view>
+			<view class="no-data" v-else>
+				没有搜索历史
+			</view>
+		</view>
 	</view>
 </template>
-
 <script>
-	
+import {mapState} from 'vuex' 
 	export default {
 		// components:{cityBar},
 		data() {
@@ -47,6 +65,8 @@
 				arr:'',
 				deptCode:'',
 				arrCode:'',
+				product:["周末随心飞","早晚随心飞","西域随心飞","湾区随心飞","大兴随心飞"],
+				pStyle:[1,0,0,0,0]
 				}
 		},
 		methods:{
@@ -91,6 +111,7 @@
 					})
 					// 只有到达
 					if(this.deptCode===''&this.arrCode!==''){
+						
 						uniCloud.callFunction({
 							name:'hasArr',
 							"data":{
@@ -155,6 +176,7 @@
 					}
 					// 出发和到达
 					if(this.deptCode!==''&this.arrCode!==''){
+						this.setHistory()
 						uniCloud.callFunction({
 							name:'hasTwo',
 							"data":{
@@ -204,6 +226,35 @@
 				changeArr(){
 					this.arr=''
 					this.arrCode=''
+				},
+				get(index){
+					console.log(index)
+					let a=[]
+					a[index]=1
+					this.pStyle=a
+					console.log(this.pStyle)
+				},
+				setHistory(){
+					this.$store.dispatch(
+						'set_history',{
+							departure:this.departure,
+							arr:this.arr,
+							deptCode:this.deptCode,
+							arrCode:this.arrCode
+						}
+					)
+				},
+				pushHistory(item){
+					let {departure,arr,deptCode,arrCode}=item
+					this.departure=departure
+					this.arr=arr
+					this.deptCode=deptCode
+					this.arrCode=arrCode
+				},
+				clearHistory(){
+					this.$store.dispatch('clear_history',{
+						
+					})
 				}
 			},
 
@@ -214,7 +265,10 @@
 			// 	this.departure=cityName
 			// 	})
 
-		}
+		},
+		computed:{
+			...mapState(['historyList'])
+		},
 	}
 </script>
 
@@ -329,6 +383,75 @@
 		.submit{
 			box-shadow: 0 0 5px 1px rgba($color: #000000, $alpha: 0.1);
 			
+		}
+	}
+	.productChoose{	
+		display: flex;
+		// justify-content: flex-start;
+		// border: 1px solid red;
+		flex-wrap: wrap;
+		margin-top: 10%;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 15px;
+		.productItem{
+			// border: 1px solid red;
+			// width: 100%;
+			background-color: #fff;
+			box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
+			border-radius: 8px;
+			margin: 5px 5px;
+			line-height: 30px;
+			padding: 2px 10px;
+		}
+		.active{
+			// background-color: #0bebff;
+			color: #0086F6;
+			border-color: #0086F6;
+		}
+		text{
+			color: #888888;
+		}
+	}
+	.label-box{
+		background-color: #ebebeb;
+		marging-bottom:10px;
+		width: 90%;
+		height: 100%;
+		box-sizing: border-box;
+		border-radius: 10px;
+		.label-header{
+			display: flex;
+			justify-content: space-between;
+			font-size: 14px;
+			color: #666;
+			padding: 10px 15px;
+			border-bottom: 1px #f5f5f5 solid;
+			.label-title{
+				color:  #0086F6;
+			}
+			.label-clear{
+				color: #30b33a;
+				font-weight: bold;
+			}
+		}
+		.label-content{
+			display: flex;
+			flex-wrap: wrap;
+			padding: 15px;
+			padding-top: 0;
+			.label-content-item{
+				padding: 2px 10px;
+				margin-top: 12px;
+				margin-right: 10px;
+				border-radius: 5px;
+				border: 1px solid #666;
+				font-size: 14px;
+				color: #666;
+			}
+		}
+		.no-data{
+			text-align: center;
 		}
 	}
 }

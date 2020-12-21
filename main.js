@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import App from './App'
 import '@/common/css/font.js'
+import store from './store/index'
 Vue.filter( 
 	'dateFormat',function(value) {
-		let date=new Date(value)
+		let date=new Date(value.replace(/-/g,'/'))
 		let hour=date.getHours()
 		if(hour<10){
 			hour='0'+hour
@@ -16,8 +17,8 @@ Vue.filter(
 )
 Vue.filter( 
 	'longFormat',function(value,arg1,arg2) {
-		let date0=new Date(value)
-		let date1=new Date(arg1)
+		let date0=new Date(value.replace(/-/g,'/'))
+		let date1=new Date(arg1.replace(/-/g,'/'))
 		let date3=date1.getTime()-date0.getTime()
 		let hour=Math.floor(date3/(3600*1000))//计算出小时数
 		let leave=date3%(3600*1000)
@@ -43,6 +44,7 @@ App.mpType = 'app'
 
 
 const app = new Vue({
-    ...App
+    ...App,
+	store
 })
 app.$mount()

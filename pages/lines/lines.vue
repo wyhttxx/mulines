@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<view class="card-control" v-for="(item,index) in linesdata" :key="index">
-			<card :item="item"></card>
+			<card :item="item" :singleLine="singleLine"></card>
 		</view>
 	</view>
 </template>
@@ -11,7 +11,8 @@
 		data() {
 			return {
 				linesdata:[],
-				isShow:0
+				isShow:0,
+				singleLine:false
 			};
 		},
 		onLoad(){
@@ -27,6 +28,9 @@
 			eventChannel.on('getLines', function(data) {
 				that.linesdata=data
 			})
+			if(this.linesdata.length===1){
+				this.singleLine=true
+			}
 		},
 /* 		watch:{
 			"linesdata":{
@@ -44,5 +48,7 @@
 </script>
 
 <style lang="scss">
-
+page{
+	margin-top: 10px;
+}
 </style>

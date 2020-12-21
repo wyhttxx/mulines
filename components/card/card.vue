@@ -106,6 +106,10 @@
 				default(){
 					return {}
 				}
+			},
+			singleLine:{
+				type:Boolean,
+				default:false
 			}
 		},
 		watch:{
@@ -124,6 +128,17 @@
 				immediate:true,
 				// deep:true
 			},
+			singleLine:{
+				handler(newVal){
+					// console.log(newVal)
+					// 经典错误了
+					if(newVal===true){
+						this.isShow="true"
+					}
+					
+				},
+				immediate:true
+			}
 			// "longItemdetail":{
 			// 	handler(newVal){
 			// 	console.log(newVal,"1")

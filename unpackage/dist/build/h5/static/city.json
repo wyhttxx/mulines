@@ -78,11 +78,11 @@
 			"value":"CAN",
 			"match_1":"GUANGZHOU"
 		},{
-			"cityCode":"SIA",
+			"cityCode":"XIY",
 			"cityName":"西安",
 			"group":"中国",
 			"label":"咸阳机场",
-			"match":"SIA,xianyang Airport,XIAN,XianYangJiChang,XYJC",
+			"match":"XIY,xianyang Airport,XIAN,XianYangJiChang,XYJC",
 			"nc":"CN",
 			"value":"XIY",
 			"match_1":"XIAN"
